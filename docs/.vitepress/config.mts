@@ -59,6 +59,7 @@ function getGuideSidebarZhCN() {
       items: [
         { text: '一键安装', link: '/guide/install.html' },
         { text: '手工部署', link: '/guide/manual.html' },
+        { text: 'Docker部署', link: '/guide/docker.html' },
         { text: '命令行参数', link: '/guide/command.html' },
         { text: 'ENV配置说明', link: '/guide/envConf.html' },
       ],
