@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as a}from"./chunks/framework.ilBJtLV6.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"guide/command.md","filePath":"guide/command.md","lastUpdated":1738014404000}'),o={name:"guide/command.md"};function c(d,n,r,m,s,i){return a(),t("div")}const f=e(o,[["render",c]]);export{_ as __pageData,f as default};
