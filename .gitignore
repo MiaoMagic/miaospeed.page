@@ -1,0 +1,9 @@
+# miscs
+.DS_Store
+._.DS_Store
+node_modules
+
+# dev
+.idea
+.vscode
+

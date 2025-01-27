@@ -1,25 +1,22 @@
 ---
-# https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
+title: Miaospeed
+titleTemplate: 使用文档
+
 hero:
-  name: "Miaospeed"
-  text: "一个支持测试代理节点的后端工具"
-  tagline: My great project tagline
+  name: Miaospeed
+  text: 一个支持测试代理节点的后端工具
+  image: https://raw.githubusercontent.com/naiba/nezha/master/resource/static/brand.svg
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: 立即开始
+      link: /guide/install.html
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: 查看源码
+      link: https://github.com/moshaoli688/miaospeed
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: 一键安装
+    details: 支持一键安装服务，操作便捷。兼容主流系统，包括 Linux、Windows、macOS、OpenWRT 等。
 ---
-
