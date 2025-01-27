@@ -14,11 +14,6 @@ export default defineConfig({
       description: '一个支持测试代理节点的后端工具',
       link: '/',
       themeConfig: {
-        lastUpdatedText: '上次更新',
-        editLink: {
-          pattern: 'https://github.com/MiaoMagic/miaospeed.github.io/edit/main/docs/:path',
-          text: '在GitHub中编辑',
-        },
         nav: [
           {
             text: '使用指南',
