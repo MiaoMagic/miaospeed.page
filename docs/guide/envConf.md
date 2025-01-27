@@ -2,7 +2,7 @@
 outline: deep
 ---
 # ENV配置说明
- **注意:改方式仅支持miaospeed v5版本**
+ **注意:该方式仅支持miaospeed v5版本**
 ```dotenv
 # MiaoSpeed Pro 服务端配置的 .env 文件
 
