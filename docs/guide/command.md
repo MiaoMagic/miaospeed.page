@@ -21,22 +21,20 @@ outline: deep
 启动服务模式，支持以下参数：
 
 ```
-  -connthread uint
-        处理连接任务时的并发线程数 (默认 64)
-  -key string
-        设置自定义证书密钥路径，例如: path/to/cert.key
-  -mmdb string
-        将所有 GeoIP 查询重定向到本地 MMDB 文件，例如: test.mmdb,testcity.mmdb
   -mtls
         启用 MiaoKo 签名的 TLS 证书验证
+  -token string
+        指定用于签署请求的令牌
+  -connthread uint
+        处理连接任务时的并发线程数 (默认 64)
+  -mmdb string
+        将所有 GeoIP 查询重定向到本地 MMDB 文件，例如: test.mmdb,testcity.mmdb
   -nospeed
         禁用所有测速请求
   -pausesecond uint
         每次测速任务后的暂停时间（秒）
   -speedlimit uint
         速度限制（以字节每秒为单位），0 表示无限制
-  -token string
-        指定用于签署请求的令牌
   -verbose
         是否输出系统日志
   -whitelist string
@@ -94,32 +92,32 @@ outline: deep
 启动服务模式，支持以下参数：
 
 ```
+  -mtls
+        启用 MiaoKo 签名的 TLS 证书验证
+  -path string
+        自定义 WebSocket 路径，默认路径: /connect (默认 "/connect")
+  -token string
+        指定用于签署请求的令牌
+  -connthread uint
+        处理连接任务时的并发线程数 (默认 64)
+  -nospeed
+        禁用所有测速请求
+  -pausesecond uint
+        每次测速任务后的暂停时间（秒）
+  -speedlimit uint
+        速度限制（以字节每秒为单位），0 表示无限制
+  -cert string
+        设置自定义证书路径，例如: path/to/cert.pem
+  -key string
+        设置自定义证书密钥路径，例如: path/to/cert.key
   -allowip string
         允许的 IP 范围，格式如 192.168.1.0/24,10.12.13.2 (默认 "0.0.0.0/0,::/0")
   -bind string
         绑定的地址，可以是 0.0.0.0:8080 或 /tmp/unix_socket (默认 "0.0.0.0:8080")
   -blockip string
         阻止的 IP 范围，格式如 192.168.1.0/24,10.12.13.2
-  -cert string
-        设置自定义证书路径，例如: path/to/cert.pem
-  -connthread uint
-        处理连接任务时的并发线程数 (默认 64)
-  -key string
-        设置自定义证书密钥路径，例如: path/to/cert.key
   -mmdb string
         将所有 GeoIP 查询重定向到本地 MMDB 文件，例如: test.mmdb,testcity.mmdb
-  -mtls
-        启用 MiaoKo 签名的 TLS 证书验证
-  -nospeed
-        禁用所有测速请求
-  -path string
-        自定义 WebSocket 路径，默认路径: /connect (默认 "/connect")
-  -pausesecond uint
-        每次测速任务后的暂停时间（秒）
-  -speedlimit uint
-        速度限制（以字节每秒为单位），0 表示无限制
-  -token string
-        指定用于签署请求的令牌
   -tw
         启用任务权重机制
   -verbose
