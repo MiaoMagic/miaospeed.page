@@ -7,7 +7,7 @@ titleTemplate: 使用文档
 hero:
   name: Miaospeed
   text: 一个支持测试代理节点的后端工具
-  image: https://raw.githubusercontent.com/naiba/nezha/master/resource/static/brand.svg
+  image: https://www.miaospeed.com/logo.png
   actions:
     - theme: brand
       text: 什么是miaospeed
