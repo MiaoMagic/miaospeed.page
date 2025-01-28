@@ -5,9 +5,11 @@ title: Miaospeed
 titleTemplate: 使用文档
 
 hero:
+  image:
+    src: /public/logo.png
+    alt: magic-miao
   name: Miaospeed
   text: 一个支持测试代理节点的后端工具
-  image: https://www.miaospeed.com/logo.png
   actions:
     - theme: brand
       text: 什么是miaospeed
