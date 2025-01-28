@@ -6,7 +6,7 @@ titleTemplate: 使用文档
 
 hero:
   image:
-    src: /public/logo.png
+    src: /logo.png
     alt: magic-miao
   name: Miaospeed
   text: 一个支持测试代理节点的后端工具
