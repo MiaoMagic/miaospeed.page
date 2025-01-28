@@ -18,12 +18,12 @@ export default defineConfig({
           {
             text: '使用指南',
             link: '/',
-            activeMatch: '^/$|^/guide/'
+            activeMatch: '^/$|^/install/'
           }
         ],
         sidebar: {
           '/': getGuideSidebarZhCN(),
-          '/guide/': getGuideSidebarZhCN(),
+          '/install/': getGuideSidebarZhCN(),
         }
       }
     }
@@ -45,18 +45,20 @@ export default defineConfig({
 function getGuideSidebarZhCN() {
   return [
     {
+      text: '什么是 MiaoSpeed',
       items: [
-        { text: '安装需求', link: '/ENV.html' },
+        { text: '项目介绍', link: '/about/whatsisthat.html' },
       ]
     },
     {
-      text: '安装 MiaoSpeed',
+      text: '安装或者部署 MiaoSpeed',
       items: [
-        { text: '一键安装', link: '/guide/install.html' },
-        { text: '手工部署', link: '/guide/manual.html' },
-        { text: 'Docker部署', link: '/guide/docker.html' },
-        { text: '命令行参数', link: '/guide/command.html' },
-        { text: 'ENV配置说明', link: '/guide/envConf.html' },
+        { text: '安装需求', link: '/install/ENV.html' },
+        { text: '一键安装脚本', link: '/install/install.html' },
+        { text: '手工本地部署', link: '/install/manual.html' },
+        { text: '使用Docker部署', link: '/install/docker.html' },
+        { text: '可用命令行参数', link: '/install/command.html' },
+        { text: 'ENV配置说明', link: '/install/envConf.html' },
       ],
     }
   ]
