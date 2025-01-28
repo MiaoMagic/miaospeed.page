@@ -47,7 +47,7 @@ function getGuideSidebarZhCN() {
     {
       text: '什么是 MiaoSpeed',
       items: [
-        { text: '项目介绍', link: '/about/whatsisthat.html' },
+        { text: '项目介绍', link: '/about/whatisthat.html' },
       ]
     },
     {
