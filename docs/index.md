@@ -1,18 +1,17 @@
 ---
 layout: home
 
-title: Miaospeed
-titleTemplate: 使用文档
+title: MiaoSpeed
 
 hero:
   image:
     src: /logo.png
     alt: magic-miao
-  name: Miaospeed
+  name: MiaoSpeed
   text: 一个支持测试代理节点的后端工具
   actions:
     - theme: brand
-      text: 什么是miaospeed
+      text: 什么是MiaoSpeed
       link: /about/whatisthat.html
     - theme: alt
       text: 立刻安装

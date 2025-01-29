@@ -10,7 +10,7 @@ export default defineConfig({
     root: {
       lang: 'zh-CN',
       label: '简体中文',
-      title: 'Miaospeed',
+      title: 'MiaoSpeed',
       description: '一个支持测试代理节点的后端工具',
       link: '/',
       themeConfig: {
