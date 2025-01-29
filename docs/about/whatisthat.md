@@ -2,6 +2,6 @@
 outline: deep
 ---
 
-# Miaospeed
+# MiaoSpeed
 
-miaospeed 是一款节点快速测试软件 Miaoko 所隶属的后端程序
+MiaoSpeed 是一款节点快速测试软件 Miaoko 所隶属的后端程序
