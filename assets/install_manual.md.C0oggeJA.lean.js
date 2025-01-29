@@ -1,1 +1,0 @@
-import{_ as a,c as t,o as e}from"./chunks/framework.ilBJtLV6.js";const p=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"install/manual.md","filePath":"install/manual.md","lastUpdated":1738147623000}'),n={name:"install/manual.md"};function s(l,r,o,c,i,m){return e(),t("div")}const _=a(n,[["render",s]]);export{p as __pageData,_ as default};
