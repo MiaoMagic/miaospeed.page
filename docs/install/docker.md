@@ -11,8 +11,8 @@ Docker 版本分为稳定版和 beta 版本，beta 版本为最新版
 ### 镜像分别为：
 
 ```shell
-docker pull oshaoli688/miaospeed:latest
-docker pull oshaoli688/miaospeed:beta
+docker pull moshaoli688/miaospeed:latest
+docker pull moshaoli688/miaospeed:beta
 ```
 
 ### Curl 下载镜像：
