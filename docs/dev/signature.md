@@ -249,71 +249,37 @@ public class Main {
     return Base64.getUrlEncoder().withoutPadding().encodeToString(hasher.digest());
   }
 }
+
 ```
-
----
-
-## 🧪 测试向量
-
-以下测试向量可用于跨语言实现的对拍，确保结果一致。  
-说明：Go 原始实现使用 **Base64URL（带 `=` padding）**；如果你的实现使用 **Raw（无 padding）**，请对应比对。  
-
-### 向量 1
-- `token = "abc"`
-- `request = {"a":1}`
-- `BUILDTOKEN = "x|y"`
-- **padded**：  
-  `3lzluJtQj7mXc2UHJpO96mgV5OS1IF7XwPOEUt0m4Ui1meTMYSFEH3t5nOhM3TUjVUrTpZ39wcbLcuFHWfAdDg==`  
-- **raw**：  
-  `3lzluJtQj7mXc2UHJpO96mgV5OS1IF7XwPOEUt0m4Ui1meTMYSFEH3t5nOhM3TUjVUrTpZ39wcbLcuFHWfAdDg`
-
-### 向量 2
-- `token = "token"`
-- `request = "GET\n/hello\n\n\n\n"`
-- `BUILDTOKEN = "aa|bb|cc"`
-- **padded**：  
-  `4x0EzioA_UEfcgkznd_DLHu_z15akoxinnnenhNrkSkF0kbSQtuAoS19psj6DpOCknO4NGDcGVlKdrcIDJkN6w==`  
-- **raw**：  
-  `4x0EzioA_UEfcgkznd_DLHu_z15akoxinnnenhNrkSkF0kbSQtuAoS19psj6DpOCknO4NGDcGVlKdrcIDJkN6w`
-
-### 向量 3
-- `token = "abc"`
-- `request = "hello"`
-- `BUILDTOKEN = ""`
-- **padded**：  
-  `YV94IYn2qF-oy9LEQBqPBctEPLeBUDmybsYpCgh7SZfFyZmZ5Tib7pBrcI2ujIap7gMUMY55s-tF1HOE_5HKZQ==`  
-- **raw**：  
-  `YV94IYn2qF-oy9LEQBqPBctEPLeBUDmybsYpCgh7SZfFyZmZ5Tib7pBrcI2ujIap7gMUMY55s-tF1HOE_5HKZQ`
-
----
 
 ## 🐞 常见错误排查
 
 1. **JSON 序列化不一致**  
-   - 问题：语言默认 JSON 格式与 Go 不同（多余空格、转义中文、键顺序不同）  
-   - 解决：使用紧凑 JSON、关闭 Unicode 转义、对 Map 做字典序排序  
+   - 症状：同输入不同签名  
+   - 解决：紧凑 JSON、UTF-8、不转义中文/`/`、Map 递归字典序排序、统一 `\n`
 
 2. **Base64URL 编码形式不一致**  
-   - 问题：一端用带 `=` padding，另一端用 Raw（无 `=`）  
-   - 解决：确保两端一致；推荐明确约定 Raw 或 Padded  
+   - 症状：仅末尾 `=` 有差异  
+   - 解决：两端统一 padded/raw；文档同时提供两种对拍值
 
-3. **BUILDTOKEN 包含空段**  
-   - 问题：Go 原始实现会替换为空字串为 `"SOME_TOKEN"`，可能导致不可预期  
-   - 解决：推荐直接报错，避免隐藏风险  
+3. **BUILDTOKEN 含空段**  
+   - 症状：本地与服务端差 1 轮混入  
+   - 解决：遵循原实现（空段→`"SOME_TOKEN"`）或直接报错并统一配置
 
-4. **跨语言哈希实现差异**  
-   - 问题：有的语言 `digest()` 会重置状态，有的不会  
-   - 解决：确认使用 `clone()` 或中途拷贝，而不是直接 `digest()` 导致状态丢失  
+4. **哈希状态误用**  
+   - 症状：每轮都从“新 hasher”开始导致结果错误  
+   - 解决：使用 `clone/copy` 或“缓冲重算”策略，保证“当前摘要”来自上轮状态
 
 5. **换行符差异**  
-   - 问题：Windows 默认 `\r\n`，Go 使用 `\n`  
-   - 解决：确保 `request` 中统一为 `\n`  
+   - 症状：Windows 生成的签名不匹配  
+   - 解决：规范化为 `\n`
 
 6. **未打印调试信息**  
-   - 问题：无法对比客户端/服务端的 `request` 和中间状态  
-   - 解决：签名前后输出 `request` 原文 + 签名字符串，逐字节比对  
+   - 症状：难以定位具体差异  
+   - 解决：输出 `request` 原文与最终 `sig`，必要时输出每轮 `tᵢ` 与中间摘要十六进制
 
 ---
+
 
 ✍️ 作者：社区贡献者  
 📌 来源：<https://www.msl.la/archives/564/>
