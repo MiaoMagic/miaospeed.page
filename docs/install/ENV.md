@@ -2,49 +2,78 @@
 outline: deep
 ---
 
-# 环境要求
+# 🏗️ 架构支持与版本说明
 
-## 1. 架构支持
+MiaoSpeed 提供多平台预编译二进制文件。  
+**推荐使用 5.x Beta 版（持续更新）**，旧的 4.x 稳定版已不再维护，仅供兼容使用。
 
-支持以下常见的处理器架构：
+---
 
-- **x86_64**（64 位）
-- **ARM64**（64 位，例如 Raspberry Pi 和部分云服务器）
-- **ARMv7**（32 位，例如旧版 Raspberry Pi）
+## 🚀 推荐版本：5.x Beta
 
-## 2. 最低硬件配置
+测试版更新频繁，功能最新，支持的架构最广泛：
 
-- **CPU**：1 核心
-- **内存**：512 MB
-- **硬盘**：10 GB 可用空间
+### Linux
+- amd64 (v1 ~ v4)
+- arm64
+- armv5 / armv6 / armv7
+- 386
+- loong64
+- mips64 / mips64le (hard/softfloat)
+- mipsle (hard/softfloat)
+- ppc64 / ppc64le
+- riscv64
+- s390x
 
-## 3. 操作系统支持
+### FreeBSD
+- amd64 (v1 ~ v4)
+- arm64
+- armv5 / armv6 / armv7
 
-- **Linux**（推荐，支持以下发行版）：
-  - Ubuntu 18.04 或更高版本
-  - Debian 9 或更高版本
-  - CentOS 7 或更高版本
-  - Alpine Linux 3.14 或更高版本
-- **Windows**：
-  - Windows 10 64 位或更高版本
-- **macOS**：
-  - macOS 10.15 (Catalina) 或更高版本
+### macOS (darwin)
+- amd64 (v1 ~ v4)
+- arm64
 
-## 4. 网络要求
+### Windows
+- amd64 (v1 ~ v4)
+- arm64
+- armv5 / armv7
+- 386
 
-- **最低带宽**：1 Mbps
-- **网络访问**：需要访问公网以下载所需依赖。
+👉 **推荐所有新部署使用 Beta 版。**
 
-## 5. 推荐配置（非必需）
+---
 
-为获得更佳性能，推荐使用以下配置：
+## 📦 兼容版本：4.3.9 稳定版（已停止更新）
 
-- **CPU**：2 核心或以上
-- **内存**：2 GB 或更高
-- **硬盘**：20 GB 或更高
-- **网络带宽**：10 Mbps 或更高
+最后的稳定版 4.3.9 提供以下架构：
 
-## 注意事项
+### Linux
+- amd64
+- arm64
+- 386
 
-1. 确保目标机器安装了基础工具（如 `curl`、`wget`）。
-2. 对于云服务器，可以选择最低配实例（如 AWS t2.micro、阿里云轻量应用服务器等）。
+### macOS
+- amd64
+- arm64
+
+### Windows
+- amd64
+- arm64
+- 386
+
+⚠️ **注意**：该版本不再更新，仅供旧系统或兼容需求使用。  
+新用户请优先选择 **Beta 版**。
+
+---
+
+## 📌 下载方式
+
+### Github Release
+- **Beta**: [GitHub Releases (Beta)](https://github.com/moshaoli688/miaospeed/releases)  
+- **Stable 4.3.9**: [GitHub Releases (Stable)](https://github.com/moshaoli688/miaospeed/releases/tag/v4.3.9)
+
+
+## 📌 建议选择
+- **新用户 / 生产环境 / 未来部署** → 推荐 **5.x Beta / SNAPSHOT**  
+- **仅兼容老环境** → 使用 **4.3.9 稳定版**（不再更新）  
