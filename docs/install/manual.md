@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# 手工部署 MiaoSpeed（全系统）
+# 手工部署 MiaoSpeed
 
 > Docker 部署请移步 👉 [Docker 文档](https://www.miaospeed.com/install/docker.html)  
 > 完整 **环境变量** 说明 👉 https://www.miaospeed.com/install/envConf.html  
@@ -338,3 +338,4 @@ launchctl start com.miaospeed
 - 参考文档：  
   - 环境变量 👉 https://www.miaospeed.com/install/envConf.html  
   - 命令行参数 👉 https://www.miaospeed.com/install/command.html#miaospeed-pro-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E
+
