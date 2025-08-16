@@ -55,7 +55,7 @@ function getGuideSidebarZhCN() {
     {
       text: '安装与部署',
       items: [
-        { text: '安装需求', link: '/install/ENV.html' },
+        { text: '安装需求', link: '/install/requirements.html' },
         { text: '一键安装脚本', link: '/install/install.html' },
         { text: '使用 Docker 部署', link: '/install/docker.html' },
         { text: 'Systemd/手工部署', link: '/install/manual.html' },
