@@ -36,7 +36,8 @@ export default defineConfig({
     ],
 
     footer: {
-      message: 'This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a>',
+      message:
+        'This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a>',
       copyright: 'Copyright © 2022-present MiaoMagic'
     }
   }
@@ -45,20 +46,35 @@ export default defineConfig({
 function getGuideSidebarZhCN() {
   return [
     {
-      text: '什么是 MiaoSpeed',
+      text: '关于 MiaoSpeed',
       items: [
         { text: '项目介绍', link: '/about/whatisthat.html' },
+        { text: '架构支持与版本', link: '/about/arch.html' },
       ]
     },
     {
-      text: '安装或者部署 MiaoSpeed',
+      text: '安装与部署',
       items: [
         { text: '安装需求', link: '/install/ENV.html' },
         { text: '一键安装脚本', link: '/install/install.html' },
-        { text: '手工本地部署', link: '/install/manual.html' },
-        { text: '使用Docker部署', link: '/install/docker.html' },
+        { text: '使用 Docker 部署', link: '/install/docker.html' },
+        { text: 'Systemd/手工部署', link: '/install/manual.html' },
+      ],
+    },
+    {
+      text: '配置与参数',
+      items: [
         { text: '可用命令行参数', link: '/install/command.html' },
-        { text: 'ENV配置说明', link: '/install/envConf.html' },
+        { text: 'ENV 配置说明', link: '/install/envConf.html' },
+      ],
+    },
+    {
+      text: '开发文档',
+      collapsed: true,
+      items: [
+        { text: '开发指南', link: '/dev/guide.html' },
+        { text: '签名算法', link: '/dev/signature.html' },
+        { text: 'API 使用说明', link: '/dev/api.html' },
       ],
     }
   ]
