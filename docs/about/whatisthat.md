@@ -12,7 +12,7 @@ MiaoSpeed 本身是一个 **后端程序**，需要配合前端面板或客户�
 
 ### 🔗 已支持的前端
 
-- 🐱 **MiaoKo** —— 原生（MiaoKo 的官方后端）  
+- 🐱 **MiaoKo** —— MiaoKo的原生后端
 - 🌀 **Fulltclash** 
 - 🔑 **Kopiy**
 
