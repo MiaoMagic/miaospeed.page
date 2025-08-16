@@ -25,9 +25,6 @@ docker pull moshaoli688/miaospeed:beta
 ```bash
 curl -L https://down.miaospeed.com/containers/miaospeed_amd64_latest.tar -o /tmp/miaospeed.tar.gz && \
 docker load -i /tmp/miaospeed.tar.gz && rm -f /tmp/miaospeed.tar.gz
-
-curl -L https://down.miaospeed.com/containers/watchtower_amd64_latest.tar -o /tmp/watchtower_latest.tar.gz && \
-docker load -i /tmp/watchtower_latest.tar.gz && rm -f /tmp/watchtower_latest.tar.gz
 ```
 
 > 📌 其他架构：
