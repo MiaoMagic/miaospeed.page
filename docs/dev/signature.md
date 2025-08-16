@@ -9,22 +9,55 @@ MiaoSpeed 的部分 API 请求需要进行签名验证。
 
 ---
 
-## 📌 核心算法
+## 📌 核心算法（详解）
 
-MiaoSpeed 的签名算法基于 **SHA-512 哈希** 与 **Base64 URL-Safe 编码**，实现方式类似 AWS V4 签名。
+MiaoSpeed 的签名算法基于 **SHA-512 哈希** 与 **Base64 URL-Safe 编码**。  
+其实现思路是：先哈希请求体，再对密钥序列逐段执行 **「写入该段 + 写入当前摘要」** 的链式混入。
 
-- **输入**：
-  - `request`：请求字符串（⚠️ 必须与 Go 的 `encoding/json` 序列化结果完全一致）
-  - `token`：主 Token
-  - `BUILDTOKEN`：扩展 Token（由服务端配置，多个以 `|` 分隔）
+### 输入
+- `request`：请求字符串（⚠️ 必须与 Go 的 `encoding/json` 序列化结果逐字节一致）
+- `token`：主 Token（机密）
+- `BUILDTOKEN`：扩展 Token（由服务端配置，多个以 `|` 分隔，可视为结构盐）
 
-- **流程**：
-  1. 初始化 `hasher = sha512.New()`
-  2. 写入 `request`
-  3. 遍历 `token + BUILDTOKEN` 中的每个段 `t`
-     - 若 `t` 为空，替换为 `"SOME_TOKEN"`
-     - 更新哈希：`hasher.Write(hasher.Sum([]byte(t)))`
-  4. 结果：`sig = base64.URLEncoding.EncodeToString(hasher.Sum(nil))`
+### 算法过程
+1. 初始化哈希器：`H = SHA512.New()`
+2. 写入请求字符串：`H.Write(bytes(request))`
+3. 遍历密钥序列 `T = [token] + split(BUILDTOKEN, "|")`
+   - 若 `t` 为空，旧实现替换为 `"SOME_TOKEN"`（推荐新实现直接报错）
+   - 获取当前摘要副本：`cur = H.Sum(nil)`
+   - 追加写入：`H.Write(bytes(t))`，再 `H.Write(cur)`
+4. 计算最终摘要：`digest = H.Sum(nil)`
+5. Base64URL 编码输出：  
+   - 原实现使用 `base64.URLEncoding`（带 `=` padding）  
+   - 若使用无 padding 形式，请确保服务端保持一致
+
+> 直观串联示例：  
+> ```
+> 被哈希的整体字节序列 =
+>   request
+>   || (t1 || H(request))
+>   || (t2 || H(request||t1||H(request)))
+>   || ...
+>   || (tn || H(...直到上一步...))
+> ```
+
+### 伪代码
+```
+function Sign(request, token, buildTokenStr):
+    H = SHA512()
+    H.write(UTF8(request))
+
+    parts = [token] + split(trim(buildTokenStr), "|")
+
+    for part in parts:
+        if part == "":
+            part = "SOME_TOKEN"  # 推荐：直接报错
+        cur = H.sum()            # 当前摘要拷贝
+        H.write(UTF8(part))
+        H.write(cur)
+
+    return Base64UrlEncode(H.sum())
+```
 
 ---
 
@@ -55,8 +88,9 @@ func hashMiaoSpeed(token, request string) string {
 ## ⚠️ 注意事项
 
 1. `request` **必须严格遵守 Go `encoding/json` 序列化规范**（见下一节）。  
-2. `BUILDTOKEN` 中若存在空段，会被替换为 `"SOME_TOKEN"`。  
-3. 建议在签名前 **打印原始 `request`**，与服务端输出逐字节比对，排查问题。
+2. `BUILDTOKEN` 中若存在空段，会被替换为 `"SOME_TOKEN"`（推荐改为报错）。  
+3. 建议在签名前 **打印原始 `request`**，与服务端输出逐字节比对，排查问题。  
+4. 两端必须确认 **Base64URL 编码是否保留 `=` padding**。  
 
 ---
 
@@ -120,7 +154,7 @@ String json = M.writeValueAsString(obj); // 默认紧凑输出
 
 ---
 
-## 💻 签名算法参考实现
+## 💻 跨语言签名算法参考实现
 
 ### PHP
 ```php
@@ -217,5 +251,67 @@ public class Main {
 
 ---
 
-✍️ 作者：社区贡献者 
+## 🧪 测试向量
+
+以下测试向量可用于跨语言实现的对拍，确保结果一致。  
+说明：Go 原始实现使用 **Base64URL（带 `=` padding）**；如果你的实现使用 **Raw（无 padding）**，请对应比对。  
+
+### 向量 1
+- `token = "abc"`
+- `request = {"a":1}`
+- `BUILDTOKEN = "x|y"`
+- **padded**：  
+  `3lzluJtQj7mXc2UHJpO96mgV5OS1IF7XwPOEUt0m4Ui1meTMYSFEH3t5nOhM3TUjVUrTpZ39wcbLcuFHWfAdDg==`  
+- **raw**：  
+  `3lzluJtQj7mXc2UHJpO96mgV5OS1IF7XwPOEUt0m4Ui1meTMYSFEH3t5nOhM3TUjVUrTpZ39wcbLcuFHWfAdDg`
+
+### 向量 2
+- `token = "token"`
+- `request = "GET\n/hello\n\n\n\n"`
+- `BUILDTOKEN = "aa|bb|cc"`
+- **padded**：  
+  `4x0EzioA_UEfcgkznd_DLHu_z15akoxinnnenhNrkSkF0kbSQtuAoS19psj6DpOCknO4NGDcGVlKdrcIDJkN6w==`  
+- **raw**：  
+  `4x0EzioA_UEfcgkznd_DLHu_z15akoxinnnenhNrkSkF0kbSQtuAoS19psj6DpOCknO4NGDcGVlKdrcIDJkN6w`
+
+### 向量 3
+- `token = "abc"`
+- `request = "hello"`
+- `BUILDTOKEN = ""`
+- **padded**：  
+  `YV94IYn2qF-oy9LEQBqPBctEPLeBUDmybsYpCgh7SZfFyZmZ5Tib7pBrcI2ujIap7gMUMY55s-tF1HOE_5HKZQ==`  
+- **raw**：  
+  `YV94IYn2qF-oy9LEQBqPBctEPLeBUDmybsYpCgh7SZfFyZmZ5Tib7pBrcI2ujIap7gMUMY55s-tF1HOE_5HKZQ`
+
+---
+
+## 🐞 常见错误排查
+
+1. **JSON 序列化不一致**  
+   - 问题：语言默认 JSON 格式与 Go 不同（多余空格、转义中文、键顺序不同）  
+   - 解决：使用紧凑 JSON、关闭 Unicode 转义、对 Map 做字典序排序  
+
+2. **Base64URL 编码形式不一致**  
+   - 问题：一端用带 `=` padding，另一端用 Raw（无 `=`）  
+   - 解决：确保两端一致；推荐明确约定 Raw 或 Padded  
+
+3. **BUILDTOKEN 包含空段**  
+   - 问题：Go 原始实现会替换为空字串为 `"SOME_TOKEN"`，可能导致不可预期  
+   - 解决：推荐直接报错，避免隐藏风险  
+
+4. **跨语言哈希实现差异**  
+   - 问题：有的语言 `digest()` 会重置状态，有的不会  
+   - 解决：确认使用 `clone()` 或中途拷贝，而不是直接 `digest()` 导致状态丢失  
+
+5. **换行符差异**  
+   - 问题：Windows 默认 `\r\n`，Go 使用 `\n`  
+   - 解决：确保 `request` 中统一为 `\n`  
+
+6. **未打印调试信息**  
+   - 问题：无法对比客户端/服务端的 `request` 和中间状态  
+   - 解决：签名前后输出 `request` 原文 + 签名字符串，逐字节比对  
+
+---
+
+✍️ 作者：社区贡献者  
 📌 来源：<https://www.msl.la/archives/564/>
