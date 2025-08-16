@@ -9,7 +9,7 @@ MiaoSpeed 的部分 API 请求需要进行签名验证。
 
 ---
 
-## 📌 核心算法（详解）
+## 📌 核心算法（详解版）
 
 MiaoSpeed 的签名算法基于 **SHA-512 哈希** 与 **Base64 URL-Safe 编码**。  
 其实现思路是：先哈希请求体，再对密钥序列逐段执行 **「写入该段 + 写入当前摘要」** 的链式混入。
@@ -23,23 +23,24 @@ MiaoSpeed 的签名算法基于 **SHA-512 哈希** 与 **Base64 URL-Safe 编码*
 1. 初始化哈希器：`H = SHA512.New()`
 2. 写入请求字符串：`H.Write(bytes(request))`
 3. 遍历密钥序列 `T = [token] + split(BUILDTOKEN, "|")`
-   - 若 `t` 为空，旧实现替换为 `"SOME_TOKEN"`（推荐新实现直接报错）
-   - 获取当前摘要副本：`cur = H.Sum(nil)`
+   - 若 `t` 为空，旧实现替换为 `"SOME_TOKEN"`（**推荐新实现直接报错**）
+   - 获取当前摘要副本：`cur = H.Sum(nil)`（不重置状态）
    - 追加写入：`H.Write(bytes(t))`，再 `H.Write(cur)`
 4. 计算最终摘要：`digest = H.Sum(nil)`
 5. Base64URL 编码输出：  
    - 原实现使用 `base64.URLEncoding`（带 `=` padding）  
    - 若使用无 padding 形式，请确保服务端保持一致
 
-> 直观串联示例：  
-> ```
-> 被哈希的整体字节序列 =
->   request
->   || (t1 || H(request))
->   || (t2 || H(request||t1||H(request)))
->   || ...
->   || (tn || H(...直到上一步...))
-> ```
+### 🔁 直观串联示例（严谨定义）
+
+递推定义：
+- `S₀ = request`
+- 对第 `i` 段密钥 `tᵢ`（`1..n`）：  
+  `Sᵢ = Sᵢ₋₁ || tᵢ || H(Sᵢ₋₁)`
+- 最终签名：`sig = Base64URL( H(Sₙ) )`
+
+说明：
+- Go 的 `hasher.Sum([]byte(t))` 只是在**返回值**里构造 `t || H(当前状态)`，不会把 `t` 计入这一次的摘要；随后 `Write(...)` 把这两段真正写入，从而得到新的状态 `Sᵢ`。
 
 ### 伪代码
 ```
@@ -58,6 +59,7 @@ function Sign(request, token, buildTokenStr):
 
     return Base64UrlEncode(H.sum())
 ```
+---
 
 ---
 
