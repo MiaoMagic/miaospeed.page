@@ -64,8 +64,8 @@ function getGuideSidebarZhCN() {
     {
       text: '配置与参数',
       items: [
-        { text: '可用命令行参数', link: '/install/command.html' },
-        { text: 'ENV 配置说明', link: '/install/envConf.html' },
+        { text: 'ENV参数', link: '/install/envConf.html' },
+        { text: '命令行参数', link: '/install/command.html' },
       ],
     },
     {
