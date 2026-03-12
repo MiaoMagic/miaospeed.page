@@ -66,6 +66,7 @@ MiaoSpeed 每次发布都会提供预构建二进制压缩包：
   - 下载地址：[Releases (Beta)](https://github.com/MiaoMagic/miaospeed/releases)
 
 - **稳定版**  
+  - 不提供最新的脚本兼容方法
   - 已停止更新  
   - 不推荐新部署使用
 
