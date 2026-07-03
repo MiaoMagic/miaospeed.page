@@ -90,8 +90,9 @@ func hashMiaoSpeed(token, request string) string {
 ## ⚠️ 注意事项
 
 1. `request` **必须严格遵守 Go `encoding/json` 序列化规范**（见下一节）。  
-2. `BUILDTOKEN` 中若存在空段，会被替换为 `"SOME_TOKEN"`（推荐改为报错）。  
-3. 建议在签名前 **打印原始 `request`**，与服务端输出逐字节比对，排查问题。  
+2. `BUILDTOKEN` 中若存在空段，会被替换为 `"SOME_TOKEN"`。
+- 使用 `SOME_TOKEN` 作为 Miaospeed 默认 `BUILDTOKEN` 可能会出现相关安全问题
+3. 在生产环境投入使用前，建议 **打印原始 `request`** 进行核查，与服务端输出逐字节比对，排查问题。  
 4. 两端必须确认 **Base64URL 编码是否保留 `=` padding**。  
 
 ---

@@ -11,7 +11,7 @@ hero:
   text: 一个支持测试代理节点的后端工具
   actions:
     - theme: brand
-      text: 什么是MiaoSpeed
+      text: 了解更多
       link: /about/whatisthat.html
     - theme: alt
       text: 立刻安装
